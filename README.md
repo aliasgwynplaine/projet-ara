@@ -26,11 +26,9 @@ ara/
 ```
 ## building
 ```bash
-mkdir build
-javac -cp "your lib jars" your-sources-here -d build
-jar cvf output.jar build/*
-java -cp "yourlibs:output.jar" peersim.Simulator path2config
+make all
 ```
+You will have now a `run.sh` file. Just execute it.
 
 ## to-do
 - [ ] makefile
