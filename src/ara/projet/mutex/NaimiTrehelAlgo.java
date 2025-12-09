@@ -137,7 +137,7 @@ public class NaimiTrehelAlgo implements EDProtocol {
 		log.info("Node " + host.getID() + " global counter = " + global_counter);
 	}
 
-	private void initialisation(Node host) {
+	public void initialisation(Node host) {
 		changestate(host, State.tranquil);
 		next = new ArrayDeque<Long>();
 		if (host.getID() == initial_owner) {
