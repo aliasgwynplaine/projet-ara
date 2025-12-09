@@ -1,0 +1,15 @@
+random.seed 12345
+simulation.endtime 50000
+network.size 5
+
+protocol.transport UniformRandomTransport
+protocol.transport.mindelay 20 
+protocol.transport.maxdelay 30
+
+protocol.naimitrehel NaimiTrehelAlgo
+protocol.naimitrehel.transport transport
+protocol.naimitrehel.timeCS 70
+protocol.naimitrehel.timeBetweenCS 50 
+
+init.ini NaimiTrehelInitializer
+init.ini.task naimitrehel
