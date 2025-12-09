@@ -29,9 +29,16 @@ ara/
 make all
 ```
 You will have now a `run.sh` file. Just execute it.
+```bash
+./run config/nh.txt
+```
+
+## Config files
++ étude experimental 1 -> `nh.txt`
 
 ## to-do
-- [ ] makefile
+- [x] makefile
+- [ ] verify the critical section
 
 
 ## notes 
