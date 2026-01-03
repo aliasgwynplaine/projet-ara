@@ -28,7 +28,7 @@ ara/
 ```bash
 make all
 ```
-You will have now a `run.sh` file. Just execute it.
+You will have now a `run.sh` file. Just execute it passing it a context file.
 ```bash
 ./run config/nh.txt
 ```
