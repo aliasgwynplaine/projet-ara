@@ -1,15 +1,24 @@
-random.seed 12345
-simulation.endtime 50000
-network.size 5
+loglevel INFO
 
-protocol.transport UniformRandomTransport
-protocol.transport.mindelay 20 
-protocol.transport.maxdelay 30
+N 4
+alpha 70
+betha 50
+lambda 15
+
+random.seed 12345
+simulation.endtime 1000 # 1 hour (time in ms)
+network.size N
+
+protocol.uniform UniformRandomTransport
+protocol.uniform.mindelay lambda - 5
+protocol.uniform.maxdelay lambda + 5
 
 protocol.naimitrehel NaimiTrehelAlgo
-protocol.naimitrehel.transport transport
-protocol.naimitrehel.timeCS 70
-protocol.naimitrehel.timeBetweenCS 50 
+protocol.naimitrehel.transport uniform
+protocol.naimitrehel.timeCS alpha
+protocol.naimitrehel.timeBetweenCS betha 
 
-init.ini NaimiTrehelInitializer
-init.ini.task naimitrehel
+control.finalizer NaimiTrehelFinalizer
+control.finalizer.task naimitrehel
+control.finalizer.at -1
+control.finalizer.FINAL
