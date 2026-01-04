@@ -67,6 +67,8 @@ public class NaimiTrehelAlgo implements EDProtocol {
 								// (toujours constant dans cette classe mais
 								// peut être incrémenté dans les sous-classes)
 
+	protected boolean has_token = false; // indique si le noeud possède le jeton
+
 	public NaimiTrehelAlgo(String prefix) {
 		String tmp[] = prefix.split("\\.");
 		protocol_id = Configuration.lookupPid(tmp[tmp.length - 1]);
@@ -118,6 +120,7 @@ public class NaimiTrehelAlgo implements EDProtocol {
 				this.receive_request(node, m.getIdSrc(), rm.getRequester());
 			} else if (m instanceof TokenMessage) {
 				TokenMessage tm = (TokenMessage) m;
+				has_token = true;
 				this.receive_token(node, tm.getIdSrc(), tm.getNext(), tm.getCounter());
 			} else {
 				throw new RuntimeException("Receive unknown type Message");
@@ -142,6 +145,7 @@ public class NaimiTrehelAlgo implements EDProtocol {
 		next = new ArrayDeque<Long>();
 		if (host.getID() == initial_owner) {
 			last = nil;
+			has_token = true;
 		} else {
 			last = initial_owner;
 		}
@@ -174,6 +178,7 @@ public class NaimiTrehelAlgo implements EDProtocol {
 					+ dest.getID());
 			tr.send(host, dest, new TokenMessage(host.getID(), dest.getID(), protocol_id, new ArrayDeque<Long>(next),
 					global_counter), protocol_id);
+			has_token = false;
 			next.clear();
 		}
 	}
@@ -191,6 +196,7 @@ public class NaimiTrehelAlgo implements EDProtocol {
 						+ ") to " + dest.getID() + " (no need)");
 				tr.send(host, dest, new TokenMessage(host.getID(), dest.getID(), protocol_id, new ArrayDeque<Long>(),
 						global_counter), protocol_id);
+				has_token = false;
 				last = requester;
 			}
 		} else {

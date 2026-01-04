@@ -1,24 +1,29 @@
-loglevel INFO
+loglevel WARNING
 
-N 4
-alpha 70
-betha 50
-lambda 15
+N 100
+alpha 1000 # temps moyen passé en SC
+betha 1000 # Temps moyen qu'un noeud attend avand de redemander la SC
+gamma 15   # temps moyen pour transmettre un message entre deux noeuds
+endtime 60*60*1000 # 1 hour (time in ms)
 
 random.seed 12345
-simulation.endtime 1000 # 1 hour (time in ms)
+simulation.endtime endtime
 network.size N
 
 protocol.uniform UniformRandomTransport
-protocol.uniform.mindelay lambda - 5
-protocol.uniform.maxdelay lambda + 5
+protocol.uniform.mindelay gamma * (1.0 - 0.1)
+protocol.uniform.maxdelay gamma * (1.0 + 0.1)
 
 protocol.naimitrehel NaimiTrehelAlgo
 protocol.naimitrehel.transport uniform
 protocol.naimitrehel.timeCS alpha
-protocol.naimitrehel.timeBetweenCS betha 
+protocol.naimitrehel.timeBetweenCS betha
 
-control.finalizer NaimiTrehelFinalizer
-control.finalizer.task naimitrehel
-control.finalizer.at -1
-control.finalizer.FINAL
+control.observer NaimiTrehelObserver
+control.observer.protocol naimitrehel
+control.observer.step 1
+
+#control.finalizer NaimiTrehelFinalizer
+#control.finalizer.task naimitrehel
+#control.finalizer.at -1
+#control.finalizer.FINAL
