@@ -80,6 +80,12 @@ public class NaimiTrehelObserver implements Control {
                 if (CommonState.getTime() == CommonState.getEndTime() - 1) {
                         long total_r_time = 0;
 
+                        if (u_time + t_time + n_time != CommonState.getEndTime()) {
+                                log.severe("Inconsistent time accounting!");
+                        }
+
+                        System.out.format("%-12s%-12s%-12s%-12s%-12s%-12s%-12s\n", "Time", "NodeID", "state", "nb_cs", "global_c", "r_time", "has_token");
+
                         for (int i = 0; i < Network.size(); i++) {
                                 Node node = Network.get(i);
                                 NaimiTrehelAlgo nh = (NaimiTrehelAlgo) node.getProtocol(protocol_id);
@@ -89,9 +95,9 @@ public class NaimiTrehelObserver implements Control {
 
                         double avg_r_time = (double) total_r_time / Network.size();
                         System.out.format("Average requesting time: %10s\n", avg_r_time);
-                        System.out.format("Token utilized time:     %10s\n", u_time);
-                        System.out.format("Token in transit time:   %10s\n", t_time);
-                        System.out.format("Token non utilized time: %10s\n", n_time);
+                        System.out.format("Token utilized time:     %10s -> %-5s%% \n", u_time, u_time / (double)CommonState.getTime() * 100);
+                        System.out.format("Token in transit time:   %10s -> %-5s%% \n", t_time, t_time / (double)CommonState.getTime() * 100);
+                        System.out.format("Token non utilized time: %10s -> %-5s%% \n", n_time, n_time / (double)CommonState.getTime() * 100);
                 }
 
                 return false;
