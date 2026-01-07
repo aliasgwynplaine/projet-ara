@@ -32,4 +32,4 @@ ${BUILD_DIR}:
 	mkdir -p ${BUILD_DIR}
 
 clean:
-	rm -rf ${BUILD_DIR} ${CIBLE} ${JAR} ${DATA_DIR}/*.csv ${CONFIG}/*.txt
+	rm -rf ${BUILD_DIR} ${CIBLE} ${JAR} ${DATA_DIR}/*.csv ${CONFIG_DIR}/*.txt
