@@ -2,6 +2,7 @@ JAVAC=javac
 JAVA=java
 PEERSIM_BIN=bin
 SRC_DIR=src
+DATA_DIR=data
 BUILD_DIR=build
 CONFIG_DIR=config
 CIBLE=run.sh
@@ -15,7 +16,7 @@ all: ${CIBLE}
 ${CIBLE}: ${JAR}
 	echo '#!/bin/bash' > $@
 	echo 'if [ $$# -lt 1 ]; then' >> $@
-	echo '  echo "Usage: $0 <config file>"' >> $@
+	echo '  echo "Usage: $$0 <config file>"' >> $@
 	echo '  exit 2' >> $@
 	echo 'fi' >> $@
 	echo 'java -cp "${JAR}:${CLASSPATH}" peersim.Simulator $$1' >> $@
@@ -31,4 +32,4 @@ ${BUILD_DIR}:
 	mkdir -p ${BUILD_DIR}
 
 clean:
-	rm -rf ${BUILD_DIR} ${CIBLE} ${JAR}
+	rm -rf ${BUILD_DIR} ${CIBLE} ${JAR} ${DATA_DIR}/*.csv

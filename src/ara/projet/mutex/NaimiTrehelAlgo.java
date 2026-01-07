@@ -46,6 +46,8 @@ public class NaimiTrehelAlgo implements EDProtocol {
 	protected State state;
 	protected Queue<Long> next;
 	protected long last;
+	protected int nb_msg_sent = 0; // permet de compter le nb de jetons envoyés
+	protected int nb_requests = 0; // permet de compter le nombre de requêtes effectuées par le noeud
 	protected int nb_cs = 0;// permet de compter le nombre de section critiques
 							// exécutées par le noeud
 
@@ -76,7 +78,6 @@ public class NaimiTrehelAlgo implements EDProtocol {
 		transport_id = Configuration.getPid(prefix + "." + PAR_TRANSPORT);
 		timeCS = Configuration.getLong(prefix + "." + PAR_TIME_CS);
 		timeBetweenCS = Configuration.getLong(prefix + "." + PAR_TIME_BETWEEN_CS);
-
 	}
 
 	public Object clone() {
@@ -159,6 +160,8 @@ public class NaimiTrehelAlgo implements EDProtocol {
 			Transport tr = (Transport) host.getProtocol(transport_id);
 			Node dest = Network.get((int) last);
 			tr.send(host, dest, new RequestMessage(host.getID(), dest.getID(), protocol_id, host.getID()), protocol_id);
+			nb_requests++;
+			nb_msg_sent++;
 			last = nil;
 			return;// on simule un wait ici
 		}
@@ -178,6 +181,7 @@ public class NaimiTrehelAlgo implements EDProtocol {
 					+ dest.getID());
 			tr.send(host, dest, new TokenMessage(host.getID(), dest.getID(), protocol_id, new ArrayDeque<Long>(next),
 					global_counter), protocol_id);
+			nb_msg_sent++;
 			has_token = false;
 			next.clear();
 		}
@@ -196,12 +200,15 @@ public class NaimiTrehelAlgo implements EDProtocol {
 						+ ") to " + dest.getID() + " (no need)");
 				tr.send(host, dest, new TokenMessage(host.getID(), dest.getID(), protocol_id, new ArrayDeque<Long>(),
 						global_counter), protocol_id);
+				nb_msg_sent++;
 				has_token = false;
 				last = requester;
 			}
 		} else {
 			Node dest = Network.get((int) last);
 			tr.send(host, dest, new RequestMessage(host.getID(), dest.getID(), protocol_id, requester), protocol_id);
+			nb_msg_sent++;
+			nb_requests++;
 			last = requester;
 		}
 	}
