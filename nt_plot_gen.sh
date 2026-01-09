@@ -3,7 +3,7 @@ rm data/*.csv
 rm config/*.txt
 echo "generating config files..."
 
-betas=`python3 confgen.py`
+betas=`python3 nt_confgen.py`
 
 echo "Executing case 1..."
 
