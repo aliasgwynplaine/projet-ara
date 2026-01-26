@@ -47,6 +47,7 @@ plt.xlabel("Rho")
 plt.xscale("log")
 plt.ylabel("Time units")
 plt.title("Average Requesting Time Per Node - N = 30")
+plt.legend(labels=["γ << α", "γ == α", "γ >> α"])
 
 plt.show()
 

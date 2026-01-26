@@ -4,14 +4,13 @@ import statistics
 
 from sys import argv
 
-if len(argv) < 5 :
+if len(argv) < 4 :
     print("fuck you")
     exit(2)
 
 filename1 = argv[1]
 filename2 = argv[2]
 filename3 = argv[3]
-title = argv[4]
 
 for filename in [filename1, filename2, filename3] :
     rhos = list()

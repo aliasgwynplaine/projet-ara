@@ -44,9 +44,8 @@ for filename in [filename1, filename2, filename3] :
 plt.xlabel("Rho")
 plt.xscale("log")
 plt.ylabel("Nb Messages")
-plt.y
 plt.title("AVG Number of Messages Per CS per simulation - N = 30")
-plt.legend(labels=["gamma << alpha", "gamma = alpha", "gamma >> gamma"])
+plt.legend(labels=["γ << α", "γ == α", "γ >> α"])
 
 plt.show()
 

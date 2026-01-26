@@ -39,7 +39,7 @@ plt.xlabel("Rho")
 plt.xscale("log")
 plt.ylabel("NB messages")
 plt.title("AVG Number of Messages Per CS Per Noued - N = 30")
-plt.legend(labels=["gamma << alpha", "gamma = alpha", "gamma >> gamma"])
+plt.legend(labels=["γ << α", "γ == α", "γ >> α"])
 
 plt.show()
 
