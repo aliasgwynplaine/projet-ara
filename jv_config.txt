@@ -1,0 +1,34 @@
+N 5
+probacrash 1
+alpha 199  # temps moyen passé en SC
+gamma 1    # temps moyen pour transmettre un message entre deux noeuds
+beta  100 # Temps moyen qu'un noeud attend avand de redemander la SC
+endtime 10000
+
+random.seed 1337
+simulation.endtime endtime
+network.size N
+
+protocol.uniform UniformRandomTransport
+protocol.uniform.mindelay gamma * (1.0 - 0.1)
+protocol.uniform.maxdelay gamma * (1.0 + 0.1)
+
+protocol.fifo FIFOTransport
+protocol.fifo.transport uniform
+
+protocol.naimitrehel NaimiTrehelAlgoCheckpointable
+protocol.naimitrehel.timeCS alpha
+protocol.naimitrehel.timeBetweenCS beta
+
+protocol.juangvenkatesan JuangVenkatesanAlgo
+protocol.juangvenkatesan.transport fifo
+protocol.juangvenkatesan.checkpointable naimitrehel
+protocol.juangvenkatesan.timecheckpointing 80
+
+protocol.naimitrehel.transport juangvenkatesan
+
+control.crashcntrl CrashControler
+control.crashcntrl.probacrash probacrash
+control.crashcntrl.checkpointer juangvenkatesan
+control.crashcntrl.faulty_nodes 4 # Separated by '_'
+control.crashcntrl.at 600
