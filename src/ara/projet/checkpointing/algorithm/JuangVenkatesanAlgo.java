@@ -54,19 +54,25 @@ public class JuangVenkatesanAlgo implements Checkpointer, EDProtocol, Transport 
 	private Map<Long, List<WrappingMessage>> sent_messages;
 
 	// ATtributs de sauvegarde
-	private Stack<NodeState> states; // etat de l'application
+	public Stack<NodeState> states; // etat de l'application
 	private Stack<Map<Long, Integer>> saved_sent;// nombre de message envoyés
 	private Stack<Map<Long, Integer>> saved_rcvd;// nombre de message reçus
 	private Stack<Map<Long, List<WrappingMessage>>> saved_sent_messages;// message envoyés
 
 	// attributs pour l'algo de recovery
-	private boolean is_recovery = false;
+	public  boolean is_recovery = false;
 	private int idround = 0;
 	private int nb_remaining_received_ack_rollback = 0;
 	private boolean should_continue_rollback = false;
 	private int nb_remaining_received_rollback = 0;
 	private List<WrappingMessage> message_to_replay_after_recovery;
 	private int nb_remaining_replyrecovery;
+
+	// some atributes just for experimentation
+	public long nb_msg_sent_during_recover = 0;
+	public NodeState last_state;
+	public long deltaT;
+	public int deltaA;
 
 	public JuangVenkatesanAlgo(String prefix) {
 		String tmp[] = prefix.split("\\.");
@@ -192,6 +198,8 @@ public class JuangVenkatesanAlgo implements Checkpointer, EDProtocol, Transport 
 		} else {
 			host.setFailState(Fallible.OK);
 		}
+
+		last_state = states.peek();
 		log.info("Node " + host.getID() + " : start recovering (" + states.size() + " checkpoints) last state = "
 				+ states.peek());
 
@@ -209,6 +217,7 @@ public class JuangVenkatesanAlgo implements Checkpointer, EDProtocol, Transport 
 			if (j != host.getIndex()) {
 				long id_dest = Network.get(j).getID();
 				int nb_sent = saved_sent.peek().get(id_dest);
+				nb_msg_sent_during_recover++;
 				t.send(host, Network.get(j), new RollBackMessage(host.getID(), id_dest, protocol_id, nb_sent),
 						protocol_id);
 			}
@@ -245,6 +254,7 @@ public class JuangVenkatesanAlgo implements Checkpointer, EDProtocol, Transport 
 			for (int i = 0; i < Network.size(); i++) {
 				Node dest = Network.get(i);
 				if (dest.getID() != host.getID()) {
+					nb_msg_sent_during_recover++;
 					t.send(host, dest,
 							new AckRollBackMessage(host.getID(), dest.getID(), protocol_id, should_continue_rollback),
 							protocol_id);
@@ -290,6 +300,7 @@ public class JuangVenkatesanAlgo implements Checkpointer, EDProtocol, Transport 
 		for (int i = 0; i < Network.size(); i++) {
 			Node dest = Network.get(i);
 			if (dest.getID() != host.getID()) {
+				nb_msg_sent_during_recover++; // maybe not needed
 				t.send(host, dest, new AskMissingMessMessage(host.getID(), dest.getID(), protocol_id,
 						saved_rcvd.peek().get(dest.getID())), protocol_id);
 			}
@@ -360,9 +371,14 @@ public class JuangVenkatesanAlgo implements Checkpointer, EDProtocol, Transport 
 				+ "  state = " + states.peek() + " nb reply messages = " + message_to_replay_after_recovery.size() + " "
 				+ message_to_replay_after_recovery);
 		chk.restoreState(states.peek());
+		deltaT = last_state.time - states.peek().time;
+		deltaA = last_state.nb_msg_appli - states.peek().nb_msg_appli;
+
 		for (WrappingMessage wm : message_to_replay_after_recovery) {
 			receiveWrappingMessage(host, wm);
 		}
+
+		//nb_msg_sent_during_recover = 0; // maybe useless
 
 	}
 
@@ -385,6 +401,11 @@ public class JuangVenkatesanAlgo implements Checkpointer, EDProtocol, Transport 
 	private void next_turn(Node host) {
 		long res = MyRandom.nextLong(timecheckpointing, 0.1);
 		EDSimulator.add(res, "loop", host, protocol_id);
+	}
+
+
+	public int getMemory() {
+		return states.toString().length();
 	}
 
 	////////////////////////////////////////////////// Classes des messages

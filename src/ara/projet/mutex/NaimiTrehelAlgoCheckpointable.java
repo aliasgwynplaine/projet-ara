@@ -13,7 +13,7 @@ public class NaimiTrehelAlgoCheckpointable extends NaimiTrehelAlgo implements ED
 
 	// variable permettant de savoir si l'application est suspendue ou pas pour
 	// cause de recovery
-	private boolean is_suspended = false;
+	public boolean is_suspended = false;
 
 	public NaimiTrehelAlgoCheckpointable(String prefix) {
 		super(prefix);
@@ -38,7 +38,7 @@ public class NaimiTrehelAlgoCheckpointable extends NaimiTrehelAlgo implements ED
 
 	@Override
 	public NodeState getCurrentState() {
-		NodeState res = new NodeState();
+		NodeState res = new NodeState(CommonState.getTime(), this.nb_msg_sent);
 		res.saveVariable("state", state.name());
 		res.saveVariable("next", new ArrayDeque<Long>(next));
 		res.saveVariable("last", Long.valueOf(last));

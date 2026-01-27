@@ -37,21 +37,21 @@ public class NaimiTrehelAlgo implements EDProtocol {
 	}
 
 	// paramètres de l'algorithme lus depuis le fichier de configuration
-	protected final long timeCS;
-	protected final long timeBetweenCS;
-	protected final int transport_id;
-	protected final int protocol_id;
+	public final long timeCS;
+	public final long timeBetweenCS;
+	public final int transport_id;
+	public final int protocol_id;
 
 	// variables d'état de l'application
-	protected State state;
-	protected Queue<Long> next;
-	protected long last;
-	protected int nb_msg_sent = 0; // permet de compter le nb de jetons envoyés
-	protected int nb_requests = 0; // permet de compter le nombre de requêtes effectuées par le noeud
-	protected int nb_cs = 0;// permet de compter le nombre de section critiques
+	public State state;
+	public Queue<Long> next;
+	public long last;
+	public int nb_msg_sent = 0; // permet de compter le nb de jetons envoyés
+	public int nb_requests = 0; // permet de compter le nombre de requêtes effectuées par le noeud
+	public int nb_cs = 0;// permet de compter le nombre de section critiques
 							// exécutées par le noeud
 
-	protected int global_counter = 0; // compteur qui sera inclu dans le message
+	public int global_counter = 0; // compteur qui sera inclu dans le message
 										// jeton, sa valeur est égale à la
 										// dernière valeur connue
 										// (i.e. depuis la dernière fois où le
@@ -63,13 +63,13 @@ public class NaimiTrehelAlgo implements EDProtocol {
 										// la modifier uniquement lorsqu'ils
 										// possèdent le jeton
 
-	protected int id_execution;// permet d'identifier l'id d'exécution,
+	public int id_execution;// permet d'identifier l'id d'exécution,
 								// incrémenté si l'application est
 								// suspendue
 								// (toujours constant dans cette classe mais
 								// peut être incrémenté dans les sous-classes)
 
-	protected boolean has_token = false; // indique si le noeud possède le jeton
+	public boolean has_token = false; // indique si le noeud possède le jeton
 
 	public NaimiTrehelAlgo(String prefix) {
 		String tmp[] = prefix.split("\\.");
