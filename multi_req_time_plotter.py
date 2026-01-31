@@ -39,15 +39,17 @@ for filename in [filename1, filename2, filename3] :
         rhos,
         means,
         yerr=stds,
-        fmt='-o',
+        fmt='-*',
         capsize=5,
     )
 
 plt.xlabel("Rho")
 plt.xscale("log")
 plt.ylabel("Time units")
-plt.title("Average Requesting Time Per Node - N = 30")
-plt.legend(labels=["γ << α", "γ == α", "γ >> α"])
+plt.title("Average Requesting Time Per Node Per CS - N = 30")
+plt.legend(labels=["γ << α", "γ == α", "γ >> α"], loc="lower right")
+plt.hlines(200*(30-1), 0, 1000000, linestyles='--', color="blue")
+plt.text(1e-2, 200*(30-1) + 150, "(α + γ)*(N - 1)" , ha='left', va='center', color="blue")
 
 plt.show()
 

@@ -151,10 +151,11 @@ public class NaimiTrehelObserver implements Control {
 				Node node = Network.get(i);
 				NaimiTrehelAlgo nh = (NaimiTrehelAlgo) node.getProtocol(protocol_id);
 
-				if (r_time[i] / (nh.nb_cs + 1) >= (alpha + gamma) * (Network.size() - 1)) {
-					log.warning("Node "+ i +" has "+ r_time[i] / (nh.nb_cs) +" requesting time !");
+				if (r_time[i] / nh.nb_cs >= (alpha + gamma) * (Network.size() - 1)) {
+					log.warning("Node "+ i +" has "+ r_time[i] / nh.nb_cs +" requesting time !");
 				}
 				
+				r_time[i] = r_time[i] / nh.nb_cs;
 			}
 
 			double avg_r_time = (double) total_r_time / Network.size();
