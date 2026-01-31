@@ -1,11 +1,13 @@
-N 5
+loglevel SEVERE
+N 30
 probacrash 1
-alpha 199  # temps moyen passé en SC
-gamma 1    # temps moyen pour transmettre un message entre deux noeuds
-beta  100 # Temps moyen qu'un noeud attend avand de redemander la SC
-endtime 10000
+alpha 199   # temps moyen passé en SC
+gamma 1     # temps moyen pour transmettre un message entre deux noeuds
+beta  4000  # Temps moyen qu'un noeud attend avand de redemander la SC
+freqR 3000
+crashtime 9000
+endtime 100000
 
-random.seed 1337
 simulation.endtime endtime
 network.size N
 
@@ -23,12 +25,22 @@ protocol.naimitrehel.timeBetweenCS beta
 protocol.juangvenkatesan JuangVenkatesanAlgo
 protocol.juangvenkatesan.transport fifo
 protocol.juangvenkatesan.checkpointable naimitrehel
-protocol.juangvenkatesan.timecheckpointing 80
+protocol.juangvenkatesan.timecheckpointing freqR
 
 protocol.naimitrehel.transport juangvenkatesan
 
 control.crashcntrl CrashControler
 control.crashcntrl.probacrash probacrash
 control.crashcntrl.checkpointer juangvenkatesan
-control.crashcntrl.faulty_nodes 4 # Separated by '_'
-control.crashcntrl.at 600
+control.crashcntrl.faulty_nodes 4 # Separated by '_'. replace w random
+control.crashcntrl.at crashtime
+
+init.ini JuangVenkatesanAlgoInitializer
+init.ini.task juangvenkatesan
+
+control.observer JuangVenkatesanObserver
+control.observer.experience case0
+control.observer.timecheckpointing freqR
+control.observer.protocol naimitrehel
+control.observer.checkpointer juangvenkatesan
+control.observer.step 1
