@@ -56,6 +56,8 @@ public class JuangVenkatesanObserver implements Control {
 	protected long stocka;             // stockage
 	protected long ancienA;             // ancienneté A
 	protected long ancienT;             // ancienneté T
+	protected long ancienX;             // ancienneté X
+	protected long nb_cs;              // nb of critical sections
 
 	protected boolean start_rec = false;
 	protected boolean last_stat = false;
@@ -78,6 +80,8 @@ public class JuangVenkatesanObserver implements Control {
 		stocka = 0;
 		ancienT = 0;
 		ancienA = 0;
+		ancienX = 0;
+		nb_cs = 0;
 	}
 
 	@Override
@@ -125,21 +129,24 @@ public class JuangVenkatesanObserver implements Control {
 				JuangVenkatesanAlgo jva = (JuangVenkatesanAlgo) node.getProtocol(checkpointer_id);
 				nb_msg += jva.nb_msg_sent_during_recover;
 				nb_app += nha.nb_msg_sent;
-				System.out.format("%-12s%-12s%-12s%-12s%-12s%-12s%-12s\n", 
-					CommonState.getTime(), node.getID(), jva.is_recovery, jva.nb_msg_sent_during_recover, 
-					jva.getMemory(), jva.deltaT, jva.deltaA);
+				nb_cs += nha.nb_cs;
+				//System.out.format("%-12s%-12s%-12s%-12s%-12s%-12s%-12s\n", 
+				//	CommonState.getTime(), node.getID(), jva.is_recovery, jva.nb_msg_sent_during_recover, 
+				//	jva.getMemory(), jva.deltaT, jva.deltaA);
 				ancienA += jva.deltaA;
 				ancienT += jva.deltaT;
+				ancienX += jva.deltaX;
 			}
 
-			System.out.format("Nb of messages appli sent:      %d\n", nb_app);
-			System.out.format("Time betweencheckpointing:      %d\n", timecheckpointing);
-			System.out.format("Recovering time:                %d\n", r_time);
-			System.out.format("Nb of messages per recov:       %d\n", nb_msg);
-			System.out.format("Memory used before the crash:   %d\n", stocka);
-			System.out.format("AVG ancienneté T:               %d\n", ancienT / Network.size());
-			System.out.format("AVG ancienneté A:               %d\n", ancienA / Network.size());
-			System.out.format("data: %d,%d,%d,%d,%d,%d\n", nb_app, r_time, nb_msg, stocka, ancienT / Network.size(), ancienA / Network.size());
+			//System.out.format("Nb of messages appli sent:      %d\n", nb_app);
+			//System.out.format("Nb of messages appli per CS:    %d\n", nb_app/nb_cs);
+			//System.out.format("Time betweencheckpointing:      %d\n", timecheckpointing);
+			//System.out.format("Recovering time:                %d\n", r_time);
+			//System.out.format("Nb of messages per recov:       %d\n", nb_msg);
+			//System.out.format("Memory used before the crash:   %d\n", stocka);
+			//System.out.format("AVG ancienneté T:               %d\n", ancienT / Network.size());
+			//System.out.format("AVG ancienneté A:               %d\n", ancienA / Network.size());
+			System.out.format("data: %d,%d,%d,%d,%d,%d,%d,%d\n", nb_app, nb_cs, r_time, nb_msg, stocka, ancienT / Network.size(), ancienA / Network.size(), ancienX / Network.size());
 		}
 
 		return false;

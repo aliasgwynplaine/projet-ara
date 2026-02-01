@@ -9,7 +9,6 @@ gamma 1   # temps moyen pour transmettre un message entre deux noeuds
 beta %d # Temps moyen qu'un noeud attend avand de redemander la SC
 endtime %d # hour (time unit in ms)
 
-random.seed 1337
 simulation.endtime endtime
 network.size N
 
@@ -42,7 +41,6 @@ gamma 100   # temps moyen pour transmettre un message entre deux noeuds
 beta %d # Temps moyen qu'un noeud attend avand de redemander la SC
 endtime %d # hour (time unit in ms)
 
-random.seed 1337
 simulation.endtime endtime
 network.size N
 
@@ -75,7 +73,6 @@ gamma 180   # temps moyen pour transmettre un message entre deux noeuds
 beta %d # Temps moyen qu'un noeud attend avand de redemander la SC
 endtime %d
 
-random.seed 1337
 simulation.endtime endtime
 network.size N
 
@@ -101,6 +98,8 @@ control.observer.step 1
 
 T = 1000000
 betas = [1, 2, 5, 20, 50, 200, 500, 1000, 1600, 2500, 4000, 5000, 7500, 10000, 25000, 50000, 75000, 100000, 130000, 200000]
+#betas = [1, 2, 5, 20, 50, 200, 500, 1000, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1850, 1900, 1910, 1925, 1930, 1940, 1950, 2000, 2100, 2125, 2250, 2500, 3000, 3100, 3200, 3300, 3500, 3600, 3700, 3800, 3900, 4000, 4500, 5000, 5100, 5200, 5300, 5400, 5500, 5700, 5800, 6000, 6200, 6500, 6600, 6700, 6800, 7000, 8000, 10000, 15000, 25000, 50000, 75000, 100000, 130000, 200000]
+
 
 # Case 1
 for i in  betas:

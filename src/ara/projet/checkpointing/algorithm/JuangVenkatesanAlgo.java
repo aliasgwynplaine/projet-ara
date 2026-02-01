@@ -73,6 +73,7 @@ public class JuangVenkatesanAlgo implements Checkpointer, EDProtocol, Transport 
 	public NodeState last_state;
 	public long deltaT;
 	public int deltaA;
+	public int deltaX;
 
 	public JuangVenkatesanAlgo(String prefix) {
 		String tmp[] = prefix.split("\\.");
@@ -200,6 +201,7 @@ public class JuangVenkatesanAlgo implements Checkpointer, EDProtocol, Transport 
 		}
 
 		last_state = states.peek();
+		deltaX = states.size()
 		log.info("Node " + host.getID() + " : start recovering (" + states.size() + " checkpoints) last state = "
 				+ states.peek());
 
@@ -300,7 +302,6 @@ public class JuangVenkatesanAlgo implements Checkpointer, EDProtocol, Transport 
 		for (int i = 0; i < Network.size(); i++) {
 			Node dest = Network.get(i);
 			if (dest.getID() != host.getID()) {
-				nb_msg_sent_during_recover++; // maybe not needed
 				t.send(host, dest, new AskMissingMessMessage(host.getID(), dest.getID(), protocol_id,
 						saved_rcvd.peek().get(dest.getID())), protocol_id);
 			}
@@ -373,6 +374,7 @@ public class JuangVenkatesanAlgo implements Checkpointer, EDProtocol, Transport 
 		chk.restoreState(states.peek());
 		deltaT = last_state.time - states.peek().time;
 		deltaA = last_state.nb_msg_appli - states.peek().nb_msg_appli;
+		deltaX = deltaX - states.size();
 
 		for (WrappingMessage wm : message_to_replay_after_recovery) {
 			receiveWrappingMessage(host, wm);

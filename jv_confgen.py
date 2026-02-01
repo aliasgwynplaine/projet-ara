@@ -1,4 +1,5 @@
 #-*- coding: utf-8 -*-
+import random
 
 templat="""
 loglevel SEVERE
@@ -34,8 +35,8 @@ protocol.naimitrehel.transport juangvenkatesan
 control.crashcntrl CrashControler
 control.crashcntrl.probacrash probacrash
 control.crashcntrl.checkpointer juangvenkatesan
-control.crashcntrl.faulty_nodes 4 # Separated by '_'. replace w random
-control.crashcntrl.at 90000
+control.crashcntrl.faulty_nodes %d # Separated by '_'. replace w random
+control.crashcntrl.at %d
 
 init.ini JuangVenkatesanAlgoInitializer
 init.ini.task juangvenkatesan
@@ -48,14 +49,13 @@ control.observer.checkpointer juangvenkatesan
 control.observer.step 1
 """
 
-betas = [t for t in range(500, 10100, 1000)]
-freqs = [f for f in range(500, 4000, 500)]
+betas = range(1500, 8000, 500)
 
 # Case 1
-for t in  betas:
-    for f in freqs : 
-        filename = "config/jv_%d_%d.txt" % (t, f)
+for b in betas:
+    for f in range(500, 10500, 500) : 
+        filename = "config/jv_%d_%d.txt" % (b, f)
         with open(filename, 'w') as fh:
-            fh.write(templat % (t, f));
+            fh.write(templat % (b, f, random.randint(0, 29), random.randint(85000, 95000)));
 
 for beta in betas: print(beta, end=" ")

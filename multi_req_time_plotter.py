@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 import matplotlib.pyplot as plt
 import statistics
-
-import matplotlib.pyplot as plt
 from sys import argv
 
 if len(argv) < 4 :
     print("fuck you")
     exit(2)
+
+plt.rcParams.update({'font.size': 20})
+
 
 filename1 = argv[1]
 filename2 = argv[2]
@@ -43,7 +44,7 @@ for filename in [filename1, filename2, filename3] :
         capsize=5,
     )
 
-plt.xlabel("Rho")
+plt.xlabel("ρ")
 plt.xscale("log")
 plt.ylabel("Time units")
 plt.title("Average Requesting Time Per Node Per CS - N = 30")

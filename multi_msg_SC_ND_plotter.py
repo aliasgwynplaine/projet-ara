@@ -8,6 +8,9 @@ if len(argv) < 4 :
     print("fuck you")
     exit(2)
 
+plt.rcParams.update({'font.size': 20})
+
+
 filename1 = argv[1]
 filename2 = argv[2]
 filename3 = argv[3]
@@ -35,9 +38,10 @@ for filename in [filename1, filename2, filename3] :
 
     plt.plot(rhos, mpcs, '-o')
 
-plt.xlabel("Rho")
+plt.xlabel("ρ")
 plt.xscale("log")
 plt.ylabel("NB messages")
+plt.ylim(1.8, 5)
 plt.title("AVG Number of Messages Per CS Per Noued - N = 30")
 plt.legend(labels=["γ << α", "γ == α", "γ >> α"])
 

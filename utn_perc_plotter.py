@@ -8,6 +8,8 @@ if len(argv) <3 :
     print("fuck you")
     exit(2)
 
+plt.rcParams.update({'font.size': 20})
+
 filename = argv[1]
 title = argv[2]
 
@@ -26,9 +28,9 @@ for i in range(0, len(lines), 2):
 rhos_sorted, data_sorted = zip(*sorted(zip(rhos, data)))
 rhos = list(rhos_sorted)
 data = list(data_sorted)
-plt.plot(rhos, data_sorted, '-o')
+plt.plot(rhos, data_sorted, '-')
 
-plt.xlabel("Rho")
+plt.xlabel("ρ")
 plt.xscale("log")
 plt.ylabel("%")
 plt.ylim(-5, 105)

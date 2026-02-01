@@ -8,6 +8,8 @@ if len(argv) < 4 :
     print("fuck you")
     exit(2)
 
+plt.rcParams.update({'font.size': 20})
+
 filename1 = argv[1]
 filename2 = argv[2]
 filename3 = argv[3]
@@ -37,7 +39,7 @@ for filename in [filename1, filename2, filename3] :
     means = [sum(d) / nd for d, nd in zip(data, nb_noeud)]
     plt.plot(rhos, means, '-o')
 
-plt.xlabel("Rho")
+plt.xlabel("ρ")
 plt.xscale("log")
 plt.title("Number of Requests Per Noeud - N = 30")
 plt.legend(labels=["γ << α", "γ == α", "γ >> α"])

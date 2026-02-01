@@ -117,13 +117,13 @@ public class NaimiTrehelObserver implements Control {
 				log.severe("Inconsistent time accounting!");
 			}
 
-			System.out.format("%-12s%-12s%-12s%-12s%-12s%-12s%-12s%-12s%-12s\n", "Time", "NodeID", "state", "nb_cs", "global_c", "nb_req","r_time", "nb_msg_sent", "has_token");
+			//System.out.format("%-12s%-12s%-12s%-12s%-12s%-12s%-12s%-12s%-12s\n", "Time", "NodeID", "state", "nb_cs", "global_c", "nb_req","r_time", "nb_msg_sent", "has_token");
 
 			for (int i = 0; i < Network.size(); i++) {
 				Node node = Network.get(i);
 				NaimiTrehelAlgo nh = (NaimiTrehelAlgo) node.getProtocol(protocol_id);
 				
-				System.out.format("%-12s%-12s%-12s%-12s%-12s%-12s%-12s%-12s%-12s\n",CommonState.getTime(), node.getID(), nh.state, nh.nb_cs, nh.global_counter, nh.nb_requests, r_time[i], nh.nb_msg_sent, nh.has_token);
+				//System.out.format("%-12s%-12s%-12s%-12s%-12s%-12s%-12s%-12s%-12s\n",CommonState.getTime(), node.getID(), nh.state, nh.nb_cs, nh.global_counter, nh.nb_requests, r_time[i], nh.nb_msg_sent, nh.has_token);
 				
 				total_r_time  += r_time[i];
 				total_r_time_2 += r_time[i] * r_time[i];
@@ -150,10 +150,6 @@ public class NaimiTrehelObserver implements Control {
 			for (int i = 0; i < Network.size(); i++) {
 				Node node = Network.get(i);
 				NaimiTrehelAlgo nh = (NaimiTrehelAlgo) node.getProtocol(protocol_id);
-
-				if (r_time[i] / nh.nb_cs >= (alpha + gamma) * (Network.size() - 1)) {
-					log.warning("Node "+ i +" has "+ r_time[i] / nh.nb_cs +" requesting time !");
-				}
 				
 				r_time[i] = r_time[i] / nh.nb_cs;
 			}
@@ -173,25 +169,25 @@ public class NaimiTrehelObserver implements Control {
 			double std_nb_msg = Math.sqrt((double) total_nb_msg_2 / Network.size() - avg_nb_msg * avg_nb_msg);
 
 			Double rho = (double)(alpha + gamma) / beta;
-			System.out.println("alpha:"+ alpha);
-			System.out.println("gamma:"+ gamma);
-			System.out.println("beta:"+ beta);
-			System.out.println("rho: "+ rho);
-			System.out.println("");
-			System.out.format("Max global counter:       %10s\n", max_global_counter);
-			System.out.format("Nb messages per CS:       %10s\n", nb_msg_cs);
-			System.out.format("AVG Nb msg per CS per N:  %10s\n", avg_nb_msg_cs_nd);
-			System.out.format("STD Nb msg per CS per N:  %10s\n", std_nb_msg_cs_nd);
-			System.out.format("AVG number of messages:   %10s\n", avg_nb_msg);
-			System.out.format("STD number of messages:   %10s\n", std_nb_msg);
-			System.out.format("AVG requesting time:      %10.3f\n", avg_r_time);
-			System.out.format("STD requesting time:      %10.3f\n", std_r_time);
-			System.out.format("AVG number of requests:   %10.3f\n", avg_nb_requests);
-			System.out.format("STD number of requests:   %10.3f\n", std_nb_requests);
-			System.out.format("Total number of requests: %10s\n", total_nb_requests);
-			System.out.format("Token utilized time:      %10s -> %-5s%% \n", u_time, u_time / (double)CommonState.getTime() * 100);
-			System.out.format("Token in transit time:    %10s -> %-5s%% \n", t_time, t_time / (double)CommonState.getTime() * 100);
-			System.out.format("Token non utilized time:  %10s -> %-5s%% \n", n_time, n_time / (double)CommonState.getTime() * 100);
+			//System.out.println("alpha:"+ alpha);
+			//System.out.println("gamma:"+ gamma);
+			//System.out.println("beta:"+ beta);
+			//System.out.println("rho: "+ rho);
+			//System.out.println("");
+			//System.out.format("Max global counter:       %10s\n", max_global_counter);
+			//System.out.format("Nb messages per CS:       %10s\n", nb_msg_cs);
+			//System.out.format("AVG Nb msg per CS per N:  %10s\n", avg_nb_msg_cs_nd);
+			//System.out.format("STD Nb msg per CS per N:  %10s\n", std_nb_msg_cs_nd);
+			//System.out.format("AVG number of messages:   %10s\n", avg_nb_msg);
+			//System.out.format("STD number of messages:   %10s\n", std_nb_msg);
+			//System.out.format("AVG requesting time:      %10.3f\n", avg_r_time);
+			//System.out.format("STD requesting time:      %10.3f\n", std_r_time);
+			//System.out.format("AVG number of requests:   %10.3f\n", avg_nb_requests);
+			//System.out.format("STD number of requests:   %10.3f\n", std_nb_requests);
+			//System.out.format("Total number of requests: %10s\n", total_nb_requests);
+			//System.out.format("Token utilized time:      %10s -> %-5s%% \n", u_time, u_time / (double)CommonState.getTime() * 100);
+			//System.out.format("Token in transit time:    %10s -> %-5s%% \n", t_time, t_time / (double)CommonState.getTime() * 100);
+			//System.out.format("Token non utilized time:  %10s -> %-5s%% \n", n_time, n_time / (double)CommonState.getTime() * 100);
 			
 			String nb_req_out_name   = "data/nb_req_"+ experience +".csv";
 			String req_time_out_name = "data/req_time_"+ experience +".csv";
