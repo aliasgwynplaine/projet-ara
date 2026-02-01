@@ -9,6 +9,7 @@ if len(argv) < 2 :
 filename = argv[1]
 
 nb_app = list()
+nb_cs = list()
 rtime = list()
 nb_msg = list()
 stocka = list()
@@ -21,11 +22,12 @@ with open(filename, 'r') as fh :
     for line in lines :
         d = line.split(',')
         nb_app.append(int(d[0]))
-        rtime.append(int(d[1]))
-        nb_msg.append(int(d[2]))
-        stocka.append(int(d[3]))
-        ancienT.append(int(d[4]))
-        ancienA.append(int(d[5]))
+        nb_cs.append(int(d[1]))
+        rtime.append(int(d[2]))
+        nb_msg.append(int(d[3]))
+        stocka.append(int(d[4]))
+        ancienT.append(int(d[5]))
+        ancienA.append(int(d[6]))
 
 beta = filename.split('_')[1]
 freq = filename.split('_')[2].split('.')[0]
@@ -35,4 +37,5 @@ for m in nb_app, rtime, nb_msg, stocka, ancienT, ancienA :
     print(",{}".format(int(statistics.mean(m))), end='')
     print(",{}".format(int(statistics.stdev(m))), end='')
 
-print()
+print(",", end="")
+print(beta)
