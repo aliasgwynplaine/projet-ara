@@ -32,13 +32,3 @@ You will have now a `run.sh` file. Just execute it passing it a context file.
 ```bash
 ./run config/nh.txt
 ```
-
-## Config files
-+ étude experimental 1 -> `nh.txt`
-
-## to-do
-- [x] makefile
-- [ ] verify the critical section
-
-
-## notes 
